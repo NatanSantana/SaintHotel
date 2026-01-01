@@ -30,10 +30,12 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // define polítca de sem sessão
                 )
                 .authorizeHttpRequests(auth -> auth
-                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/quartos/registrar").hasRole("ADMIN")
                         .requestMatchers("/quartos/reservar").hasRole("USER")
                         .requestMatchers("/quartos/cancelarReserva").hasRole("USER")
+                        .requestMatchers("/quartos/checkout").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/saintHotel/mercadopago/webhook").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

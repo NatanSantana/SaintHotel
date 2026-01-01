@@ -1,11 +1,14 @@
 package com.example.Saint.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Data
 public class ReservaRequest {
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -24,4 +27,5 @@ public class ReservaRequest {
     @Getter
     @Setter
     private String cpf;
+
 }

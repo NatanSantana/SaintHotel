@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 public class Quartos {
 
@@ -28,5 +30,9 @@ public class Quartos {
     @NotNull(message = "Número é obrigatório")
     @Positive(message = "Número deve ser positivo")
     private Integer numero;
+
+    @Getter
+    @Setter
+    private BigDecimal valorDoQuarto;
 
 }

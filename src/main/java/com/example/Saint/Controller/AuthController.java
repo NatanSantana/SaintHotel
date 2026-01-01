@@ -35,7 +35,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
 
-    @PostMapping("/register")
+    @PostMapping("/register") // verificação e tratamento feito
     public ResponseEntity<?> register(@RequestBody @Valid Usuarios usuarios) {
         usuarios.setSenha(passwordEncoder.encode(usuarios.getSenha()));
         usuarioService.registrarUsuario(usuarios);
