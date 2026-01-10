@@ -31,6 +31,7 @@ public class QuartosOcupadosService {
         quartosOcupados.setCheckOut(dia.plusDays(diasNoHotel));
         quartosOcupados.setDiasReservados(diasNoHotel);
         quartosOcupados.setIdUsuario(idUsuario);
+        quartosOcupados.setExpirou(false);
 
 
         quartosOcupadosRepository.save(quartosOcupados);

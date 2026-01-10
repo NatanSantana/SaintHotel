@@ -38,6 +38,15 @@ public class QuartosOcupados {
     @Setter
     private Long idUsuario;
 
+    @Getter
+    @Setter
+    private boolean expirou;
+
+    @Override
+    public String toString() {
+        return "idQuarto: "+idQuarto+"/ diaReservado: "+diaReservado+"/ checkOut: "+checkOut+"/ diasReservados: "+diasReservados+"/ idUsuario: "+idUsuario;
+    }
+
 
 
 }

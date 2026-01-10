@@ -104,8 +104,9 @@ public class WebhookController {
             // 3. Ler payments com segurança
             for (MerchantOrderPayment mpPayment : order.getPayments()) {
 
-                if (mpPayment.getStatus().equals("approved")) {
+                if (mpPayment.getStatus().equals("approved") && !isApproved) {
                     isApproved = true;
+
                     Optional<Usuarios> usuarios = usuariosRepository.findByCpf(cpf);
 
                     quartosOcupadosService.reservarQuarto(id, dia, dias, usuarios.get().getIdUsuario());

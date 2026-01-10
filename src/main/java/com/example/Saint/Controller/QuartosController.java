@@ -1,16 +1,17 @@
 package com.example.Saint.Controller;
 
+import com.example.Saint.DTO.CheckInDTO;
+import com.example.Saint.DTO.CheckOutDTO;
 import com.example.Saint.DTO.DeleteReservaDTO;
 import com.example.Saint.DTO.ReservaRequest;
+import com.example.Saint.Entity.CheckIn;
 import com.example.Saint.Entity.Quartos;
 import com.example.Saint.Entity.QuartosOcupados;
 import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.Repository.QuartosOcupadosRepository;
 import com.example.Saint.Repository.QuartosRepository;
 import com.example.Saint.Repository.UsuariosRepository;
-import com.example.Saint.Service.MercadoPagoService;
-import com.example.Saint.Service.QuartosOcupadosService;
-import com.example.Saint.Service.QuartosService;
+import com.example.Saint.Service.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
@@ -43,6 +44,12 @@ public class QuartosController {
 
     @Autowired
     private MercadoPagoService mercadoPagoService;
+
+    @Autowired
+    private CheckInService checkInService;
+
+    @Autowired
+    private CheckOutService checkOutService;
 
 
     @PostMapping("/registrar") // verificação e tratamento feito
@@ -95,6 +102,15 @@ public class QuartosController {
 
     }
 
+    @PostMapping("/checkin")
+    public ResponseEntity<?> checkin(@RequestBody CheckInDTO checkInDTO) {
+        checkInService.fazerCheckIn(checkInDTO);
+        return ResponseEntity.ok().body("Check In Registrado");
+    }
+
+
+
+    // o que difere do checkout, é que o cancelamento da reserva é feito antes mesmo do check in
     @DeleteMapping("/cancelarReserva") // verificação e tratamento feito
     public ResponseEntity<?> cancelar(@RequestBody DeleteReservaDTO deleteReservaDTO) {
         quartosOcupadosService.cancelarReserva(deleteReservaDTO);
@@ -102,16 +118,24 @@ public class QuartosController {
     }
 
     @PostMapping("/checkout") // verificação e tratamento feito
-    public ResponseEntity<?> checkout(@RequestBody DeleteReservaDTO deleteReservaDTO) {
+    public ResponseEntity<?> checkout(@RequestBody CheckOutDTO checkOutDTO) {
 
-        Usuarios usuarios = usuariosRepository.findByCpf(deleteReservaDTO.getCpf())
+        Usuarios usuarios = usuariosRepository.findByCpf(checkOutDTO.getCpf())
                 .orElseThrow(() -> new RuntimeException("Não existe usuario com o CPF informado"));
 
-        int qo = quartosOcupadosRepository.deleteReserva(deleteReservaDTO.getDia(), usuarios.getIdUsuario());
+
+
+
+
+        checkOutDTO.setCpf(checkOutDTO.getCpf());
+        checkOutDTO.setNomeQuarto(checkOutDTO.getNomeQuarto());
+
+        checkOutService.fazerCheckOut(checkOutDTO);
+
+        int qo = quartosOcupadosRepository.deleteReserva(checkOutDTO.getDiaReservado(), usuarios.getIdUsuario());
         if (qo == 0) {
             return ResponseEntity.ok().body("A reserva informada não existe para realizar a operação de CheckOut");
         }
-
 
         return ResponseEntity.ok().body("CheckOut Feito Com Sucesso");
     }

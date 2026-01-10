@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -50,6 +51,10 @@ public class Usuarios implements UserDetails {
     @NotBlank(message = "Preencha o cpf")
     @Pattern(regexp = "\\d{11}", message = "O CPF deve ter 11 DÍGITOS NUMÉRICOS")
     private String cpf;
+
+    @Getter
+    @Setter
+    private String email;
 
     @Getter
     @Setter
