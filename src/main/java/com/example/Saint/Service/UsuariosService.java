@@ -25,8 +25,11 @@ public class UsuariosService {
         }
     }
 
-    public void deletarConta(String cpfDigitado){
-        usuariosRepository.deleteByCpf(cpfDigitado);
+    public void deletarConta(String nome){
+        int delete = usuariosRepository.deleteByNome(nome);
+        if (delete == 0) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
     }
 
 

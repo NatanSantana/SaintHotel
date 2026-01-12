@@ -28,4 +28,8 @@ public class ReservaRequest {
     @Setter
     private String cpf;
 
+    @Getter
+    @Setter
+    private Long idHotel;
+
 }

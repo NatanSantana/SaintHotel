@@ -50,15 +50,18 @@ public class MercadoPagoService {
             throws MPException, MPApiException {
 
 
-        Quartos qo = quartosRepository.findByNomeQuarto(request.getNomeQuarto());
+        Quartos qo = quartosRepository.findByNomeQuarto(request.getNomeQuarto(), request.getIdHotel());
 
         Optional<Usuarios> user = usuariosRepository.findByCpf(request.getCpf());
 
         List<PreferenceItemRequest> items = new ArrayList<>();
+        Map<String, Object> metadata = new HashMap<>();
+        metadata.put("id_hotel", String.valueOf(request.getIdHotel()));
+
 
         PreferenceItemRequest item = PreferenceItemRequest.builder()
                 .id(String.valueOf(qo.getIdQuarto()))
-                .title("Quarto: " +qo.getNomeQuarto()+ "Número: " + qo.getNumero())
+                .title("Quarto: " +qo.getNomeQuarto()+ " Número: " + qo.getNumero())
                 .description("Saint Hotel: Reserva do Quarto " + qo.getNomeQuarto())
                 .quantity(request.getDiasNoHotel())
                 .currencyId("BRL")
@@ -97,9 +100,7 @@ public class MercadoPagoService {
         // -----------------------------
         // PREFERÊNCIA FINAL
         // -----------------------------
-        Map<String, Object> metadata = new HashMap<>();
-        metadata.put("dias", request.getDiasNoHotel());
-        metadata.put("idQuarto", qo.getIdQuarto());
+
 
 
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()

@@ -1,14 +1,8 @@
 package com.example.Saint.Service;
 
 import com.example.Saint.DTO.CheckOutDTO;
-import com.example.Saint.Entity.CheckOut;
-import com.example.Saint.Entity.Quartos;
-import com.example.Saint.Entity.QuartosOcupados;
-import com.example.Saint.Entity.Usuarios;
-import com.example.Saint.Repository.CheckOutRepository;
-import com.example.Saint.Repository.QuartosOcupadosRepository;
-import com.example.Saint.Repository.QuartosRepository;
-import com.example.Saint.Repository.UsuariosRepository;
+import com.example.Saint.Entity.*;
+import com.example.Saint.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,15 +23,21 @@ public class CheckOutService {
     @Autowired
     private QuartosOcupadosRepository quartosOcupadosRepository;
 
+    @Autowired
+    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+
     public CheckOut fazerCheckOut(CheckOutDTO checkOutDTO) {
 
         usuariosRepository.findByCpf(checkOutDTO.getCpf())
                 .orElseThrow(() -> new RuntimeException("Não existe usuário com este cpf"));
 
-        Quartos qo = quartosRepository.findByNomeQuarto(checkOutDTO.getNomeQuarto());
+        Quartos qo = quartosRepository.findByNomeQuarto(checkOutDTO.getNomeQuarto(), checkOutDTO.getIdHotel());
 
         QuartosOcupados qos = quartosOcupadosRepository.findByDiaReservado(checkOutDTO.getDiaReservado())
                 .orElseThrow(() -> new RuntimeException("Não existe reserva com esse dia"));
+
+        RedeSaintHotels redeSaintHotels = redeSaintHotelsRepository.findById(checkOutDTO.getIdHotel())
+                .orElseThrow(() -> new RuntimeException("Não foi encontrado Hotel com esse ID"));
 
         if(qo == null) {
             throw new RuntimeException("Não existe quarto com este nome");
@@ -47,6 +47,7 @@ public class CheckOutService {
         checkOut.setDataHoraCheckOut(LocalDateTime.now());
         checkOut.setIdQuarto(qo.getIdQuarto());
         checkOut.setCpf(checkOutDTO.getCpf());
+        checkOut.setIdHotel(checkOut.getIdHotel());
 
         if (LocalDateTime.now().isAfter(qos.getDiaReservado()) ) {
             return checkOutRepository.save(checkOut);

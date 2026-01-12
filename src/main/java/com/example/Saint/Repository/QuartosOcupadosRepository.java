@@ -18,6 +18,7 @@ import java.util.Optional;
 @Repository
 public interface QuartosOcupadosRepository extends JpaRepository<QuartosOcupados, Long> {
 
+
     List<QuartosOcupados> findAllByIdQuarto(Long idQuarto);
 
     List<QuartosOcupados> findAllByIdUsuario(Long idUsuario);
@@ -27,8 +28,8 @@ public interface QuartosOcupadosRepository extends JpaRepository<QuartosOcupados
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM QuartosOcupados WHERE diaReservado = :dia AND idUsuario = :idUsuario ")
-    int deleteReserva(@Param("dia")LocalDateTime dia, @Param("idUsuario") Long id);
+    @Query("DELETE FROM QuartosOcupados WHERE diaReservado = :dia AND idUsuario = :idUsuario AND idHotel = :idHotel")
+    int deleteReserva(@Param("dia")LocalDateTime dia, @Param("idUsuario") Long id, @Param("idHotel") Long idHotel);
 
 
     @Query("SELECT q FROM QuartosOcupados q WHERE q.checkOut < :diaAtual")
@@ -39,8 +40,10 @@ public interface QuartosOcupadosRepository extends JpaRepository<QuartosOcupados
 
     @Transactional
     @Modifying
-    @Query("UPDATE QuartosOcupados q SET q.expirou = true WHERE q.checkOut < :diaAtual")
+    @Query("UPDATE QuartosOcupados q SET q.expirou = true WHERE q.checkOut < :diaAtual AND q.expirou = false")
     int marcarReservasComoExpirada(@Param("diaAtual") LocalDateTime diaAtual);
+
+
 
 
 }

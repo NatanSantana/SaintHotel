@@ -72,7 +72,7 @@ public class WebhookController {
             cpf = order.getExternalReference();
             Long id = null;
             int dias = 0;
-
+            String descricao = null;
 
 
 
@@ -87,16 +87,19 @@ public class WebhookController {
                 System.out.println("Preço unitário: " + item.getUnitPrice());
                 System.out.println("ID do produto enviado: " + item.getId());
 
+
                 titulo = item.getTitle();
                 id = Long.valueOf(item.getId());
                 dias = item.getQuantity();
+                descricao = item.getDescription();
 
             }
 
 
             System.out.println("MerchantOrder ID = " + merchantOrderId);
 
-            PaymentClient paymentClient = new PaymentClient();
+
+
 
 
             boolean isApproved = false;
@@ -104,22 +107,37 @@ public class WebhookController {
             // 3. Ler payments com segurança
             for (MerchantOrderPayment mpPayment : order.getPayments()) {
 
+
+
                 if (mpPayment.getStatus().equals("approved") && !isApproved) {
                     isApproved = true;
 
-                    Optional<Usuarios> usuarios = usuariosRepository.findByCpf(cpf);
+                    try {
 
-                    quartosOcupadosService.reservarQuarto(id, dia, dias, usuarios.get().getIdUsuario());
+                        PaymentClient paymentClient = new PaymentClient();
+                        Payment payment = paymentClient.get(mpPayment.getId());
+
+                        Map<String, Object> metadata = payment.getMetadata();
+
+                        Optional<Usuarios> usuarios = usuariosRepository.findByCpf(cpf);
+                        if (usuarios.isEmpty()) {
+                            throw new RuntimeException("Não existe usuário com esse CPF");
+                        } else if (metadata.get("id_hotel") == null) {
+                            throw new RuntimeException("Id hotel não encontrado");
+                        }
+
+                        Long idHotel =  Long.valueOf(String.valueOf(metadata.get("id_hotel")));
+                        quartosOcupadosService.confirmarReservarQuarto(id, dia, dias, usuarios.get().getIdUsuario(), idHotel);
+
+                    } catch (Exception e) {
+                        System.out.println("Erro ao consultar pagamento " + mpPayment.getId());
+                        e.printStackTrace();
+                    }
+
+
                 }
 
-                try {
-                    Payment payment = paymentClient.get(mpPayment.getId());
 
-
-                } catch (Exception e) {
-                    System.out.println("Erro ao consultar pagamento " + mpPayment.getId());
-                    e.printStackTrace();
-                }
             }
 
             // 4. Só processa se aprovado

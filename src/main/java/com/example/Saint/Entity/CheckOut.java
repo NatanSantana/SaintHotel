@@ -27,6 +27,10 @@ public class CheckOut {
     @Setter
     private Long idQuarto;
 
+    @Getter
+    @Setter
+    private Long idHotel;
+
 
 
 }

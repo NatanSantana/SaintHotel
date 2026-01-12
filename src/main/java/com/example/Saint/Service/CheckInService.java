@@ -5,10 +5,7 @@ import com.example.Saint.Entity.CheckIn;
 import com.example.Saint.Entity.Quartos;
 import com.example.Saint.Entity.QuartosOcupados;
 import com.example.Saint.Entity.Usuarios;
-import com.example.Saint.Repository.CheckInRepository;
-import com.example.Saint.Repository.QuartosOcupadosRepository;
-import com.example.Saint.Repository.QuartosRepository;
-import com.example.Saint.Repository.UsuariosRepository;
+import com.example.Saint.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,20 +27,23 @@ public class CheckInService {
     @Autowired
     private QuartosOcupadosRepository quartosOcupadosRepository;
 
+    @Autowired
+    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+
 
     public CheckIn fazerCheckIn(CheckInDTO checkInDTO) {
 
         QuartosOcupados qos = quartosOcupadosRepository.findByDiaReservado(checkInDTO.getDiaReservado())
                 .orElseThrow(() -> new RuntimeException("Não existe reserva para o dia selecionado"));
 
-
-
-
+        if (!redeSaintHotelsRepository.existsById(checkInDTO.getIdHotel())) {
+            throw new RuntimeException("Não existe Hotel com esse ID");
+        }
 
         Usuarios user = usuariosRepository.findByCpf(checkInDTO.getCpf())
                 .orElseThrow(() -> new RuntimeException("Não existe usuário com este CPF"));
 
-        Quartos qo = quartosRepository.findByNomeQuarto(checkInDTO.getNomeQuarto());
+        Quartos qo = quartosRepository.findByNomeQuarto(checkInDTO.getNomeQuarto(), checkInDTO.getIdHotel());
 
         if (qo == null) {
             throw new RuntimeException("Não existe um quarto com esse nome");
@@ -54,6 +54,7 @@ public class CheckInService {
         checkIn.setDataHoraCheckIn(LocalDateTime.now());
         checkIn.setIdQuarto(qo.getIdQuarto());
         checkIn.setDiaReservado(checkInDTO.getDiaReservado());
+        checkIn.setIdHotel(checkInDTO.getIdHotel());
 
         if (qos.getDiaReservado().isBefore(LocalDateTime.now()) &&
                 LocalDateTime.now().isBefore(qos.getCheckOut())) {

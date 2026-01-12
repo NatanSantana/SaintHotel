@@ -33,6 +33,12 @@ public class Quartos {
 
     @Getter
     @Setter
+    @NotNull(message = "O Quarto deve ter um valor")
     private BigDecimal valorDoQuarto;
+
+    @Getter
+    @Setter
+    @NotNull(message = "Insira o ID do Hotel para registrar um quarto")
+    private Long idHotel;
 
 }

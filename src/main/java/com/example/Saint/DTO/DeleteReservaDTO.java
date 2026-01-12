@@ -16,4 +16,9 @@ public class DeleteReservaDTO {
     @Setter
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dia;
+
+    @Getter
+    @Setter
+    private Long idHotel;
+
 }

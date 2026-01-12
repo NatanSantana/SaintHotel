@@ -21,5 +21,9 @@ public class CheckInDTO {
     @Setter
     private String nomeQuarto;
 
+    @Getter
+    @Setter
+    private Long idHotel;
+
 
 }

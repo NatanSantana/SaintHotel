@@ -32,6 +32,10 @@ public class CheckIn {
     @Setter
     private LocalDateTime diaReservado;
 
+    @Getter
+    @Setter
+    private Long idHotel;
+
 
 
 }

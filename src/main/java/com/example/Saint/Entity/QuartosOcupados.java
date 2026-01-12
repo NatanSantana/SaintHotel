@@ -23,6 +23,10 @@ public class QuartosOcupados {
 
     @Getter
     @Setter
+    private Long idHotel;
+
+    @Getter
+    @Setter
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime diaReservado;
 
@@ -37,6 +41,8 @@ public class QuartosOcupados {
     @Getter
     @Setter
     private Long idUsuario;
+
+
 
     @Getter
     @Setter

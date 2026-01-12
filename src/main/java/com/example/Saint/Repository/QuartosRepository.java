@@ -13,7 +13,15 @@ import java.util.Optional;
 @Repository
 public interface QuartosRepository extends JpaRepository<Quartos, Long> {
 
+    @Query("SELECT q FROM Quartos q WHERE idHotel = :idHotel AND nomeQuarto = :nomeQuarto")
+    Quartos findByNomeQuarto(@Param("nomeQuarto") String nomeQuarto, @Param("idHotel") Long idHotel);
 
-    Quartos findByNomeQuarto(String nomeQuarto);
-    Optional<Quartos> findByNumero(int numero);
+    @Query("SELECT q FROM Quartos q WHERE idHotel = :idHotel AND numero = :numero")
+    Optional<Quartos> findByNumero(@Param("numero")int numero, @Param("idHotel") Long idHotel);
+
+    @Transactional
+    @Modifying
+    int deleteByNomeQuarto(String nomeQuarto);
+
+
 }

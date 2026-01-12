@@ -25,4 +25,8 @@ public class CheckOutDTO {
    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
    private LocalDateTime diaReservado;
 
+   @Getter
+   @Setter
+   private Long idHotel;
+
 }
