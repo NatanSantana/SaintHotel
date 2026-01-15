@@ -33,9 +33,6 @@ public class MercadoPagoService {
     private QuartosRepository quartosRepository;
 
     @Autowired
-    private QuartosOcupadosService quartosOcupadosService;
-
-    @Autowired
     private QuartosOcupadosRepository quartosOcupadosRepository;
 
     @Autowired

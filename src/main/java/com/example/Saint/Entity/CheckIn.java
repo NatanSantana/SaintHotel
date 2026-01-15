@@ -18,6 +18,10 @@ public class CheckIn {
 
     @Getter
     @Setter
+    private Long idUsuario;
+
+    @Getter
+    @Setter
     private String cpf;
 
     @Getter

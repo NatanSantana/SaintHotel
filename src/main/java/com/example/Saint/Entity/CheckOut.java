@@ -18,6 +18,10 @@ public class CheckOut {
 
     @Getter
     @Setter
+    private Long idUsuario;
+
+    @Getter
+    @Setter
     private String cpf;
 
     @Setter

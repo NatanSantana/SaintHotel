@@ -14,6 +14,10 @@ public class CheckInDTO {
 
     @Getter
     @Setter
+    private Long idUsuario;
+
+    @Getter
+    @Setter
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime diaReservado;
 

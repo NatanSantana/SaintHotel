@@ -15,6 +15,10 @@ public class CheckOutDTO {
 
     @Getter
     @Setter
+    private Long idUsuario;
+
+    @Getter
+    @Setter
     private String nomeQuarto;
 
    @Setter

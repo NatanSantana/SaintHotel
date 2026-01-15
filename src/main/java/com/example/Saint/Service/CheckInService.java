@@ -55,6 +55,7 @@ public class CheckInService {
         checkIn.setIdQuarto(qo.getIdQuarto());
         checkIn.setDiaReservado(checkInDTO.getDiaReservado());
         checkIn.setIdHotel(checkInDTO.getIdHotel());
+        checkIn.setIdUsuario(user.getIdUsuario());
 
         if (qos.getDiaReservado().isBefore(LocalDateTime.now()) &&
                 LocalDateTime.now().isBefore(qos.getCheckOut())) {

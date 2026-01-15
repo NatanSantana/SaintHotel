@@ -54,7 +54,10 @@ public class ReservaScheduler {
             quartosOcupadosRepository.marcarReservasComoExpirada(LocalDateTime.now());
 
 
-            List<Long> idsUser = qos.stream().map(QuartosOcupados::getIdUsuario).toList();
+            List<Long> idsUser = qos.stream()
+                    .map(QuartosOcupados::getIdUsuario)
+                    .distinct()
+                    .toList();
 
             for(Long ids : idsUser) {
                 Usuarios user = usuariosRepository.findById(ids).orElseThrow(() ->

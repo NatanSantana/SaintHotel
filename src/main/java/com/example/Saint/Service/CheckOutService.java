@@ -36,6 +36,9 @@ public class CheckOutService {
         QuartosOcupados qos = quartosOcupadosRepository.findByDiaReservado(checkOutDTO.getDiaReservado())
                 .orElseThrow(() -> new RuntimeException("Não existe reserva com esse dia"));
 
+        Usuarios user = usuariosRepository.findByCpf(checkOutDTO.getCpf())
+                .orElseThrow(() -> new RuntimeException("Não existe usuário com este CPF"));
+
         RedeSaintHotels redeSaintHotels = redeSaintHotelsRepository.findById(checkOutDTO.getIdHotel())
                 .orElseThrow(() -> new RuntimeException("Não foi encontrado Hotel com esse ID"));
 
@@ -48,6 +51,7 @@ public class CheckOutService {
         checkOut.setIdQuarto(qo.getIdQuarto());
         checkOut.setCpf(checkOutDTO.getCpf());
         checkOut.setIdHotel(checkOut.getIdHotel());
+        checkOut.setIdUsuario(user.getIdUsuario());
 
         if (LocalDateTime.now().isAfter(qos.getDiaReservado()) ) {
             return checkOutRepository.save(checkOut);
