@@ -68,8 +68,8 @@ public class QuartosController {
     }
 
     @PostMapping("/reservar") // verificação e tratamento feito
-    public void reservarQuarto(@RequestBody ReservaRequest request) throws MPException, MPApiException {
-        quartosOcupadosService.pedirReserva(request);
+    public ResponseEntity<?> reservarQuarto(@RequestBody ReservaRequest request) throws MPException, MPApiException {
+        return quartosOcupadosService.pedirReserva(request);
     }
 
     @PostMapping("/checkin")

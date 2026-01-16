@@ -15,6 +15,7 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class QuartosOcupadosService {
     private MercadoPagoService mercadoPagoService;
 
 
-
+    @Transactional
     public ResponseEntity<?> pedirReserva(ReservaRequest request) throws MPException, MPApiException {
         Optional<Quartos> quartos =
                 Optional.ofNullable(quartosRepository.findByNomeQuarto(request.getNomeQuarto(), request.getIdHotel()));
@@ -58,6 +59,12 @@ public class QuartosOcupadosService {
 
 
         List<LocalDateTime> datasOcupadas = new ArrayList<>();
+        List<LocalDateTime> diasSolicitados = new ArrayList<>();
+
+        for (int i=0; i<=request.getDiasNoHotel(); i++) {
+            LocalDateTime data = request.getDia().plusDays(i);
+            diasSolicitados.add(data);
+        }
 
 
         for (QuartosOcupados qo : quartoOcupado) {
@@ -70,9 +77,7 @@ public class QuartosOcupadosService {
         }
 
 
-        if (datasOcupadas.stream().noneMatch(data -> data.isEqual(request.getDia())) &&
-                datasOcupadas.stream().noneMatch(data -> data.isEqual(request.getDia().plusDays(request.getDiasNoHotel())))) {
-
+        if (diasSolicitados.stream().noneMatch(datasOcupadas::contains)) {
             Preference preference = mercadoPagoService.criarCheckoutPro(request);
 
 
