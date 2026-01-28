@@ -6,29 +6,25 @@ import com.example.Saint.Entity.Quartos;
 import com.example.Saint.Entity.QuartosOcupados;
 import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.Repository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CheckInService {
 
-    @Autowired
-    private CheckInRepository checkInRepository;
+    private final CheckInRepository checkInRepository;
 
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
-    @Autowired
-    private QuartosRepository quartosRepository;
+    private final QuartosRepository quartosRepository;
 
-    @Autowired
-    private QuartosOcupadosRepository quartosOcupadosRepository;
+    private final QuartosOcupadosRepository quartosOcupadosRepository;
 
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
 
     public CheckIn fazerCheckIn(CheckInDTO checkInDTO) {

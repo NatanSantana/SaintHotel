@@ -5,19 +5,18 @@ import com.example.Saint.Entity.RedeSaintHotels;
 import com.example.Saint.Repository.RedeSaintHotelsRepository;
 import com.example.Saint.Service.RedeSaintHotelsService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/hotel")
+@AllArgsConstructor
 public class HotelController {
 
-    @Autowired
-    private RedeSaintHotelsService redeSaintHotelsService;
+    private final RedeSaintHotelsService redeSaintHotelsService;
 
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarHotel(@RequestBody @Valid RedeSaintHotelsDTO dto) {

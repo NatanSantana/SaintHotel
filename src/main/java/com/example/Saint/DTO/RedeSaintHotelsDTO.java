@@ -1,8 +1,6 @@
 package com.example.Saint.DTO;
 
-import com.mercadopago.resources.user.User;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 

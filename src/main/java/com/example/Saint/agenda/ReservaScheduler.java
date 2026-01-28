@@ -1,6 +1,5 @@
 package com.example.Saint.agenda;
 
-import com.example.Saint.DTO.ReservaVencidaDTO;
 import com.example.Saint.Entity.Quartos;
 import com.example.Saint.Entity.QuartosOcupados;
 import com.example.Saint.Entity.RedeSaintHotels;
@@ -10,18 +9,14 @@ import com.example.Saint.Repository.QuartosRepository;
 import com.example.Saint.Repository.RedeSaintHotelsRepository;
 import com.example.Saint.Repository.UsuariosRepository;
 import com.example.Saint.Service.EmailService;
-import jakarta.mail.SendFailedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 @Component
 @Slf4j

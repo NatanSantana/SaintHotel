@@ -10,7 +10,7 @@ import com.mercadopago.resources.merchantorder.MerchantOrderItem;
 import com.mercadopago.resources.merchantorder.MerchantOrderPayment;
 import com.mercadopago.resources.payment.Payment;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,14 +23,13 @@ import java.util.Optional;
 
 @Transactional
 @RestController
+@AllArgsConstructor
 @RequestMapping("/saintHotel/mercadopago")
 public class WebhookController {
 
-    @Autowired
-    private QuartosOcupadosService quartosOcupadosService;
+    private final QuartosOcupadosService quartosOcupadosService;
 
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
     @PostMapping("/webhook")
     public ResponseEntity<Void> receberWebHook(@RequestBody Map<String, Object> payload) {

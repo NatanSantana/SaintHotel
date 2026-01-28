@@ -2,12 +2,10 @@ package com.example.Saint.Controller;
 
 import com.example.Saint.DTO.LoginRequestDTO;
 import com.example.Saint.DTO.UsuariosDTO;
-import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.InfraSecurity.JwtUtil;
 import com.example.Saint.Service.UsuariosService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,19 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@AllArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private UsuariosService usuarioService;
+    private final UsuariosService usuarioService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @PostMapping("/register") // verificação e tratamento feito

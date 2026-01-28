@@ -2,7 +2,7 @@ package com.example.Saint.Service;
 
 import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.Repository.UsuariosRepository;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,11 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {

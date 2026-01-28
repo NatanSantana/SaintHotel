@@ -4,7 +4,6 @@ import com.example.Saint.DTO.DeleteReservaDTO;
 import com.example.Saint.DTO.ReservaRequest;
 import com.example.Saint.Entity.Quartos;
 import com.example.Saint.Entity.QuartosOcupados;
-import com.example.Saint.Entity.RedeSaintHotels;
 import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.Repository.QuartosOcupadosRepository;
 import com.example.Saint.Repository.QuartosRepository;
@@ -14,8 +13,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,22 +24,18 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class QuartosOcupadosService {
 
-    @Autowired
-    private QuartosOcupadosRepository quartosOcupadosRepository;
+    private final QuartosOcupadosRepository quartosOcupadosRepository;
 
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
-    @Autowired
-    private QuartosRepository quartosRepository;
+    private final QuartosRepository quartosRepository;
 
-    @Autowired
-    private MercadoPagoService mercadoPagoService;
+    private final MercadoPagoService mercadoPagoService;
 
 
     @Transactional

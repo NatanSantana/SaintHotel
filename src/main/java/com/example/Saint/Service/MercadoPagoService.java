@@ -6,14 +6,13 @@ import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.Repository.QuartosOcupadosRepository;
 import com.example.Saint.Repository.QuartosRepository;
 import com.example.Saint.Repository.UsuariosRepository;
-import com.example.Saint.Service.QuartosOcupadosService;
-import com.example.Saint.Service.QuartosService;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.common.IdentificationRequest;
 import com.mercadopago.client.preference.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,22 +22,23 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Slf4j
+@AllArgsConstructor
 @Service
 public class MercadoPagoService {
 
-    @Autowired
-    private QuartosService quartosService;
+    private final QuartosService quartosService;
 
-    @Autowired
-    private QuartosRepository quartosRepository;
+    private final QuartosRepository quartosRepository;
 
-    @Autowired
-    private QuartosOcupadosRepository quartosOcupadosRepository;
+    private final QuartosOcupadosRepository quartosOcupadosRepository;
 
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
-    public MercadoPagoService(@Value("${mercadopago.access.token}") String token) {
+    public MercadoPagoService(@Value("${mercadopago.access.token}") String token, QuartosService quartosService, QuartosRepository quartosRepository, QuartosOcupadosRepository quartosOcupadosRepository, UsuariosRepository usuariosRepository) {
+        this.quartosService = quartosService;
+        this.quartosRepository = quartosRepository;
+        this.quartosOcupadosRepository = quartosOcupadosRepository;
+        this.usuariosRepository = usuariosRepository;
 
         MercadoPagoConfig.setAccessToken(token);
     }

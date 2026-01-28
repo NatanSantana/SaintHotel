@@ -1,23 +1,20 @@
 package com.example.Saint.Service;
 
 import com.example.Saint.DTO.UsuariosDTO;
-import com.example.Saint.Entity.Usuarios;
-import com.example.Saint.Exception.GlobalExceptionHandler;
 import com.example.Saint.Repository.UsuariosRepository;
 import com.example.Saint.mapper.MapperUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
 
 @Service
+@AllArgsConstructor
 public class UsuariosService {
 
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
     public void registrarUsuario(UsuariosDTO dto) {
 

@@ -1,19 +1,17 @@
 package com.example.Saint.Service;
 
 import com.example.Saint.DTO.RedeSaintHotelsDTO;
-import com.example.Saint.Entity.RedeSaintHotels;
 import com.example.Saint.Repository.RedeSaintHotelsRepository;
 import com.example.Saint.mapper.MapperRedeSaintHotels;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 
 @Service
+@AllArgsConstructor
 public class RedeSaintHotelsService {
 
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
 
     public void registrarHotel(RedeSaintHotelsDTO dto) {

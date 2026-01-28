@@ -8,6 +8,7 @@ import com.example.Saint.Entity.Quartos;
 import com.example.Saint.Exception.NullResultException;
 import com.example.Saint.Repository.QuartosRepository;
 import com.example.Saint.Repository.RedeSaintHotelsRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class QuartosService {
 
-    @Autowired
-    private QuartosRepository quartosRepository;
+    private final QuartosRepository quartosRepository;
 
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
 
     public void registrarQuarto(String nome, int numero, BigDecimal valorQuarto, Long idHotel) {

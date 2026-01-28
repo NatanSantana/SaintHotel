@@ -3,28 +3,25 @@ package com.example.Saint.Service;
 import com.example.Saint.DTO.CheckOutDTO;
 import com.example.Saint.Entity.*;
 import com.example.Saint.Repository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
+@AllArgsConstructor
 public class CheckOutService {
 
-    @Autowired
-    private CheckOutRepository checkOutRepository;
+    private final CheckOutRepository checkOutRepository;
 
-    @Autowired
-    private QuartosRepository quartosRepository;
+    private final QuartosRepository quartosRepository;
 
-    @Autowired
-    private UsuariosRepository usuariosRepository;
+    private final UsuariosRepository usuariosRepository;
 
-    @Autowired
-    private QuartosOcupadosRepository quartosOcupadosRepository;
+    private final QuartosOcupadosRepository quartosOcupadosRepository;
 
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
     public CheckOut fazerCheckOut(CheckOutDTO checkOutDTO) {
 
