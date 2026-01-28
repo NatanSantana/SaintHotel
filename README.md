@@ -71,7 +71,7 @@ spring.mail.properties.mail.smtp.starttls.required=true
 
 secret.key=key_para_gerar_token_jwt
 
-mercadopago.access_token=token_de_acesso_mercadopago
+mercadopago.access-token=token_de_acesso_mercadopago
 ```
 
 ## Como clonar o código

@@ -22,9 +22,10 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Slf4j
-@AllArgsConstructor
 @Service
 public class MercadoPagoService {
+
+    private final String accessToken;
 
     private final QuartosService quartosService;
 
@@ -34,13 +35,14 @@ public class MercadoPagoService {
 
     private final UsuariosRepository usuariosRepository;
 
-    public MercadoPagoService(@Value("${mercadopago.access.token}") String token, QuartosService quartosService, QuartosRepository quartosRepository, QuartosOcupadosRepository quartosOcupadosRepository, UsuariosRepository usuariosRepository) {
+    public MercadoPagoService(@Value("${mercadopago.access-token}") String accessToken, QuartosService quartosService, QuartosRepository quartosRepository, QuartosOcupadosRepository quartosOcupadosRepository, UsuariosRepository usuariosRepository) {
         this.quartosService = quartosService;
+        this.accessToken = accessToken;
         this.quartosRepository = quartosRepository;
         this.quartosOcupadosRepository = quartosOcupadosRepository;
         this.usuariosRepository = usuariosRepository;
 
-        MercadoPagoConfig.setAccessToken(token);
+        MercadoPagoConfig.setAccessToken(accessToken);
     }
 
     public Preference criarCheckoutPro(ReservaRequest request)
