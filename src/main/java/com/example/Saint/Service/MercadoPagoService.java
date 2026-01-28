@@ -109,7 +109,6 @@ public class MercadoPagoService {
                 .payer(
                         PreferencePayerRequest.builder()
                                 .name(user.get().getNome())
-                                .email("")
                                 .identification(IdentificationRequest.builder().type("CPF").number(user.get().getCpf()).build()
                                 )
                                 .build()

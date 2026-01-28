@@ -31,6 +31,9 @@ public interface QuartosOcupadosRepository extends JpaRepository<QuartosOcupados
     @Query("DELETE FROM QuartosOcupados WHERE diaReservado = :dia AND idUsuario = :idUsuario AND idHotel = :idHotel")
     int deleteReserva(@Param("dia")LocalDateTime dia, @Param("idUsuario") Long id, @Param("idHotel") Long idHotel);
 
+    @Query("SELECT q FROM QuartosOcupados q WHERE q.diaReservado = :dia AND q.idQuarto = :idQuarto")
+    Optional<QuartosOcupados> acharReserva(@Param("dia") LocalDateTime dia, @Param("idQuarto") Long idQUarto);
+
 
     @Query("SELECT q FROM QuartosOcupados q WHERE q.checkOut < :diaAtual")
     List<QuartosOcupados> reservasVencidas(@Param("diaAtual") LocalDateTime diaAtual);

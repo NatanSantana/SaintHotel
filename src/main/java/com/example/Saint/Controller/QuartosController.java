@@ -1,70 +1,40 @@
 package com.example.Saint.Controller;
 
-import com.example.Saint.DTO.CheckInDTO;
-import com.example.Saint.DTO.CheckOutDTO;
-import com.example.Saint.DTO.DeleteReservaDTO;
-import com.example.Saint.DTO.ReservaRequest;
+import com.example.Saint.DTO.*;
 import com.example.Saint.Entity.*;
 import com.example.Saint.Repository.QuartosOcupadosRepository;
-import com.example.Saint.Repository.QuartosRepository;
 import com.example.Saint.Repository.RedeSaintHotelsRepository;
 import com.example.Saint.Repository.UsuariosRepository;
 import com.example.Saint.Service.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.preference.Preference;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
 @RequestMapping("/quartos")
+@AllArgsConstructor
 public class QuartosController {
-
-    @Autowired
-    private QuartosService quartosService;
-
-    @Autowired
-    private QuartosRepository quartosRepository;
-
-    @Autowired
-    private QuartosOcupadosService quartosOcupadosService;
-
-    @Autowired
-    private QuartosOcupadosRepository quartosOcupadosRepository;
-
-    @Autowired
-    private UsuariosRepository usuariosRepository;
-
-    @Autowired
-    private MercadoPagoService mercadoPagoService;
-
-    @Autowired
-    private CheckInService checkInService;
-
-    @Autowired
-    private CheckOutService checkOutService;
-
-    @Autowired
-    private RedeSaintHotelsRepository redeSaintHotelsRepository;
+    private final QuartosService quartosService;
+    private final QuartosOcupadosService quartosOcupadosService;
+    private final QuartosOcupadosRepository quartosOcupadosRepository;
+    private final UsuariosRepository usuariosRepository;
+    private final CheckInService checkInService;
+    private final CheckOutService checkOutService;
+    private final RedeSaintHotelsRepository redeSaintHotelsRepository;
 
 
-    @PostMapping("/registrar") // verificação e tratamento feito
-    public ResponseEntity<?> registrarQuarto(@RequestBody @Valid Quartos quartos) {
-        quartosService.registrarQuarto(quartos.getNomeQuarto(), quartos.getNumero(), quartos.getValorDoQuarto(), quartos.getIdHotel());
-        return ResponseEntity.ok().body("Quarto Registrado: Nome: " + quartos.getNomeQuarto() +
-                " Número: " + quartos.getNumero());
-    }
-
-    @DeleteMapping("/excluirRegistroQuarto/{nomeQuarto}")
-    public ResponseEntity<?> excluirRegistroQuarto(@PathVariable String nomeQuarto) {
-        quartosService.deletarQuartoRegistrado(nomeQuarto);
-        return ResponseEntity.ok().body("Registro do quarto: "+nomeQuarto+"\n Excluído com sucesso");
+    @GetMapping("/all")
+    public ResponseEntity<List<Quartos>> buscarQuartos(@RequestParam(required = false) Long idHotel) {
+        if (idHotel != null) {
+            List<Quartos> quartosEHotel = quartosService.listarQuartos(idHotel);
+            return ResponseEntity.ok().body(quartosEHotel);
+        } else {
+            List<Quartos> quartos = quartosService.listarQuartos();
+            return ResponseEntity.ok().body(quartos);
+        }
     }
 
     @PostMapping("/reservar") // verificação e tratamento feito
@@ -77,7 +47,6 @@ public class QuartosController {
         checkInService.fazerCheckIn(checkInDTO);
         return ResponseEntity.ok().body("Check In Registrado");
     }
-
 
 
     // o que difere do checkout, é que o cancelamento da reserva é feito antes mesmo do check in

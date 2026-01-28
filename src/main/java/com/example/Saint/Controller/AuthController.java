@@ -1,6 +1,7 @@
 package com.example.Saint.Controller;
 
 import com.example.Saint.DTO.LoginRequestDTO;
+import com.example.Saint.DTO.UsuariosDTO;
 import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.InfraSecurity.JwtUtil;
 import com.example.Saint.Service.UsuariosService;
@@ -36,14 +37,14 @@ public class AuthController {
 
 
     @PostMapping("/register") // verificação e tratamento feito
-    public ResponseEntity<?> register(@RequestBody @Valid Usuarios usuarios) {
-        usuarios.setSenha(passwordEncoder.encode(usuarios.getSenha()));
-        usuarioService.registrarUsuario(usuarios);
+    public ResponseEntity<?> register(@RequestBody @Valid UsuariosDTO dto) {
+        dto.setSenha(passwordEncoder.encode(dto.getSenha()));
+        usuarioService.registrarUsuario(dto);
 
         return ResponseEntity.ok().body
-                ("Usuario Registrado:\nNome: "+usuarios.getNome()+
-                        "\nData de Nascimento: "+usuarios.getDataNascimento()+
-                        "\nCpf: "+usuarios.getCpf());
+                ("Usuario Registrado:\nNome: "+dto.getNome()+
+                        "\nData de Nascimento: "+dto.getDataNascimento()+
+                        "\nCpf: "+dto.getCpf());
     }
 
     @PostMapping("/login")

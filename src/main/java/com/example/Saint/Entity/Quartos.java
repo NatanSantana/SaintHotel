@@ -29,7 +29,7 @@ public class Quartos {
     @Setter
     @NotNull(message = "Número é obrigatório")
     @Positive(message = "Número deve ser positivo")
-    private Integer numero;
+    private int numero;
 
     @Getter
     @Setter
@@ -40,5 +40,10 @@ public class Quartos {
     @Setter
     @NotNull(message = "Insira o ID do Hotel para registrar um quarto")
     private Long idHotel;
+
+    @Override
+    public String toString() {
+        return "idQuarto: "+idQuarto+" nomeQuarto: "+nomeQuarto+" numero: "+numero+" valorDoQuarto: "+valorDoQuarto+" idHotel: "+idHotel;
+    }
 
 }

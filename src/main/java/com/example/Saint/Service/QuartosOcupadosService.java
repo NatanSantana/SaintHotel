@@ -114,13 +114,17 @@ public class QuartosOcupadosService {
         Usuarios usuarios = usuariosRepository.findByCpf(deleteReservaDTO.getCpf()).orElseThrow
                 (() -> new RuntimeException("Não existe registro de reserva com esse CPF"));
 
-        RedeSaintHotels redeSaintHotels = redeSaintHotelsRepository.findById(deleteReservaDTO.getIdHotel()).orElseThrow(() ->
-                new RuntimeException("Não foi encontrado nenhuma reserva com esse idHotel"));
+        QuartosOcupados quartosOcupados = quartosOcupadosRepository.acharReserva(deleteReservaDTO.getDia(), usuarios.getIdUsuario()).orElseThrow(() ->
+                new RuntimeException("Não foi encontrado reserva para esse dia ou usuário"));
 
-        int qo = quartosOcupadosRepository.deleteReserva(deleteReservaDTO.getDia(), usuarios.getIdUsuario(), deleteReservaDTO.getIdHotel());
-        if (qo == 0) {
-            throw new RuntimeException("Não existe Reserva Para Deletar");
-        }
+       if (deleteReservaDTO.getDia().isBefore(quartosOcupados.getDiaReservado())) {
+           int qo = quartosOcupadosRepository.deleteReserva(deleteReservaDTO.getDia(), usuarios.getIdUsuario(), deleteReservaDTO.getIdHotel());
+           if (qo == 0) {
+               throw new RuntimeException("Não existe Reserva Para Deletar");
+           }
+       } else {
+           ResponseEntity.badRequest().body("Você não pode cancelar uma reserva depois do dia de check in");
+       }
 
     }
 

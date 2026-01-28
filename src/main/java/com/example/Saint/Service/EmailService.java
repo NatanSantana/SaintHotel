@@ -22,7 +22,7 @@ public class EmailService {
             javaMailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Falha ao enviar e-mail: " + e.getMessage());
+            throw new RuntimeException("Falha ao enviar e-mail: " + e.getCause());
         }
     }
 

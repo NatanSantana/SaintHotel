@@ -31,11 +31,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/quartos/registrar").hasRole("ADMIN")
-                        .requestMatchers("/quartos/reservar").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/quartos/cancelarReserva").hasRole("USER")
-                        .requestMatchers("/quartos/checkout").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/quartos/excluirRegistroQuarto/").hasRole("ADMIN")
+                        .requestMatchers("/quartos/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/quartosADM/**").hasRole("ADMIN")
                         .requestMatchers("/user/deletauser").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/hotel/**").permitAll()
                         .requestMatchers("/saintHotel/mercadopago/webhook").permitAll()

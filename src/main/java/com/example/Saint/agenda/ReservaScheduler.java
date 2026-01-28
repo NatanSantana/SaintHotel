@@ -10,7 +10,10 @@ import com.example.Saint.Repository.QuartosRepository;
 import com.example.Saint.Repository.RedeSaintHotelsRepository;
 import com.example.Saint.Repository.UsuariosRepository;
 import com.example.Saint.Service.EmailService;
+import jakarta.mail.SendFailedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Component
+@Slf4j
 public class ReservaScheduler {
 
     @Autowired
@@ -73,15 +77,23 @@ public class ReservaScheduler {
                     RedeSaintHotels redeSaintHotels = redeSaintHotelsRepository.findById(qo.getIdHotel()).orElseThrow(() ->
                             new RuntimeException("Não foi possível encontrar a qual Hotel o quarto: "+qo.getNomeQuarto()+" pertence"));
 
+                    try {
+                        emailService.sendEmail(user.getEmail(), "Reserva Vencida do quarto: " + qo.getNomeQuarto()+ " da unidade: "+redeSaintHotels.getBairro()+" da rede Saint Hotel",
+                                "Sua reserva já está vencida, por favor, compareça a recepção para realizar o checkOut");
+                        log.info("Email(s) enviado(s)");
+                    } catch (MailSendException e) {
+                        throw new RuntimeException("Email inválido: "+ e.getMessage());
+                    }
 
-                    emailService.sendEmail(user.getEmail(), "Reserva Vencida do quarto: " + qo.getNomeQuarto()+ " da unidade: "+redeSaintHotels.getBairro()+" da rede Saint Hotel",
-                            "Sua reserva já está vencida, por favor, compareça a recepção para realizar o checkOut");
 
 
                 }
             }
         }
     }
+
+
+
 
 
 

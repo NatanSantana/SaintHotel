@@ -20,11 +20,11 @@ public class RedeSaintHotels {
 
     @Getter
     @Setter
-
     private String bairro;
 
     @Getter
     @Setter
+    @Column(unique = true)
     private String cep;
 
     @Getter
