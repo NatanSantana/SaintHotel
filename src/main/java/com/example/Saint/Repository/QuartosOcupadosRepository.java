@@ -34,12 +34,17 @@ public interface QuartosOcupadosRepository extends JpaRepository<QuartosOcupados
     @Query("SELECT q FROM QuartosOcupados q WHERE q.diaReservado = :dia AND q.idQuarto = :idQuarto")
     Optional<QuartosOcupados> acharReserva(@Param("dia") LocalDateTime dia, @Param("idQuarto") Long idQUarto);
 
+    @Query("SELECT qo FROM QuartosOcupados qo WHERE qo.diaReservado = :checkIn")
+    List<QuartosOcupados> acharDiaCheckIn(@Param("checkIn") LocalDateTime checkIn);
 
     @Query("SELECT q FROM QuartosOcupados q WHERE q.checkOut < :diaAtual")
     List<QuartosOcupados> reservasVencidas(@Param("diaAtual") LocalDateTime diaAtual);
 
     @Query("SELECT q FROM QuartosOcupados q WHERE q.expirou = true AND idUsuario = :id")
     List<QuartosOcupados> reservasVencidasPorUsuario(@Param("id") Long idUsuario);
+
+    @Query("SELECT q FROM QuartosOcupados q WHERE q.diaReservado = :diaReservado AND idUsuario = :id")
+    QuartosOcupados reservasPorUsuarioECheckIn(@Param("id") Long idUsuario, @Param("diaReservado") LocalDateTime checkIn);
 
     @Transactional
     @Modifying

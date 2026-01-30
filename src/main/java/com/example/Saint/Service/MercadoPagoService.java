@@ -12,9 +12,7 @@ import com.mercadopago.client.preference.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +54,8 @@ public class MercadoPagoService {
         List<PreferenceItemRequest> items = new ArrayList<>();
         Map<String, Object> metadata = new HashMap<>();
         metadata.put("id_hotel", String.valueOf(request.getIdHotel()));
+        metadata.put("email", request.getEmail());
+        metadata.put("nome", request.getNomeCliente());
 
 
         PreferenceItemRequest item = PreferenceItemRequest.builder()

@@ -2,6 +2,7 @@ package com.example.Saint.Controller;
 
 import com.example.Saint.Entity.Usuarios;
 import com.example.Saint.Repository.UsuariosRepository;
+import com.example.Saint.Service.EmailService;
 import com.example.Saint.Service.QuartosOcupadosService;
 import com.mercadopago.client.merchantorder.MerchantOrderClient;
 import com.mercadopago.client.payment.PaymentClient;
@@ -30,6 +31,8 @@ public class WebhookController {
     private final QuartosOcupadosService quartosOcupadosService;
 
     private final UsuariosRepository usuariosRepository;
+
+    private final EmailService emailService;
 
     @PostMapping("/webhook")
     public ResponseEntity<Void> receberWebHook(@RequestBody Map<String, Object> payload) {
@@ -106,8 +109,6 @@ public class WebhookController {
             // 3. Ler payments com segurança
             for (MerchantOrderPayment mpPayment : order.getPayments()) {
 
-
-
                 if (mpPayment.getStatus().equals("approved") && !isApproved) {
                     isApproved = true;
 
@@ -127,6 +128,8 @@ public class WebhookController {
 
                         Long idHotel =  Long.valueOf(String.valueOf(metadata.get("id_hotel")));
                         quartosOcupadosService.confirmarReservarQuarto(id, dia, dias, usuarios.get().getIdUsuario(), idHotel);
+                        emailService.sendEmail(String.valueOf(metadata.get("email")), "Reserva Confirmada",
+                                "Cliente Sr(a). "+metadata.get("nome")+", sua reserva do "+titulo+" foi confirmada com sucesso");
 
                     } catch (Exception e) {
                         System.out.println("Erro ao consultar pagamento " + mpPayment.getId());

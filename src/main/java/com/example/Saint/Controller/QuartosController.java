@@ -8,6 +8,7 @@ import com.example.Saint.Repository.UsuariosRepository;
 import com.example.Saint.Service.*;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class QuartosController {
     }
 
     @PostMapping("/reservar") // verificação e tratamento feito
-    public ResponseEntity<?> reservarQuarto(@RequestBody ReservaRequest request) throws MPException, MPApiException {
+    public ResponseEntity<?> reservarQuarto(@RequestBody @Valid ReservaRequest request) throws MPException, MPApiException {
         return quartosOcupadosService.pedirReserva(request);
     }
 
